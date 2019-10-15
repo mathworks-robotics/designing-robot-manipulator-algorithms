@@ -1,75 +1,88 @@
+function ready = checkDependencies
 % This function checks whether all the necessary files to run the
-% demosntration are available on the MATLAB path. It also modifies the 
+% example are available on the MATLAB path. It also modifies the
 % robot description file to a format compatible to be imported into
-% Simulink.
+% MATLAB and Simulink.
 
-% Copyright 2018 The MathWorks, Inc.
+% Copyright 2017-2018 The MathWorks, Inc.
 
-function ready=checkDependencies
+% Initialize the readiness flag
+ready = true;
+
+gitRepo = 'https://github.com/ROBOTIS-GIT/open_manipulator';
+
+disp('Checking for open_manipulator_description files...')
 
 % Check for the necessary project folder from the repository
-
-disp('Checking for Open_Manipulator_Description files.....')
-
-% Attempt to use GIT integration to clone the repository
+% If the folder does not exist, clone the Git repository
 if exist('open_manipulator_description','dir')~=7
-    disp('Attempting to checkout repository from GIT.....');
-    [status,~]= system('git clone https://github.com/ROBOTIS-GIT/open_manipulator');
-    disp('Done');
+    disp(['Attempting to clone Git repository from ' gitRepo '...']);
+    [status,~] = system(['git clone ' gitRepo]);
     
-    % Address failed GIT support
+    % If cloning the repository failed, warn user that git is not installed
     if status ~= 0
-        disp('Attempt failed. Make sure you have installed GIT bash software: http://gitforwindows.org/ or download the files manually');
-        d = dialog('Position',[450 450 280 250],'Name','Open Manipulator Description files not found');
-        
-        txt = uicontrol('Parent',d,...
+        d = dialog('Position',[450 450 280 250],'Name','OpenManipulator description files not found');
+        uicontrol('Parent',d,...
             'Style','text',...
-            'Position',[20 150 250 80],...
-            'String','Please make sure to have the ''Open_Manipulator_Description'' folder on the MATLAB path. Find this folder in the following submission:  https://github.com/ROBOTIS-GIT/open_manipulator');
-        
-        btn = uicontrol('Parent',d,...
-            'Position',[85 20 70 25],...
+            'Position',[20 50 250 180],...
+            'String',{'Attempt failed. Make sure you have installed Git: https://git-scm.com/downloads or download the files manually.', ...
+                      '',['Please make sure to have the ''open_manipulator_description'' folder on the MATLAB path. Find this folder in the following repository: ' gitRepo]});
+        uicontrol('Parent',d,...
+            'Position',[110 20 70 25],...
             'String','Close',...
             'Callback','delete(gcf)');
-        disp('Copy the following link to the GIT repository: https://github.com/ROBOTIS-GIT/open_manipulator');
-        ready=0;
-        
-    % If succesful, add files to path 
-    else
-        addpath(genpath(pwd));
-        disp('Modifying necessary description files.....');
-        
-        % Create a description file in the supported URDF format by
-        % removing XACRO elements
-        if exist('open_manipulator_chain.xacro','file')==2
-            filetext=fileread('open_manipulator_chain.xacro');
-            temptxt=strrep(filetext,'${pi*0.9}','2.8274');
-            temptxt=strrep(temptxt,'${-pi*0.9}','-2.8274');
-            file=fopen('open_manipulator_chain.urdf','w');
-            fwrite(file,temptxt);
-            fclose(file);
-            disp('Done');
-            ready=1;
-            
-        % Give a warning if the description file is not found
-        else
-            d = dialog('Position',[450 450 280 250],'Name','Open Manipulator Description xacro file not found');
-            
-            txt = uicontrol('Parent',d,...
-                'Style','text',...
-                'Position',[20 150 250 80],...
-                'String','Please make sure to have the ''open_manipulator_chain.xacro''file in the MATLAB path. Find this file and other necessary dependencies in the following submission:  https://github.com/ROBOTIS-GIT/open_manipulator');
-            
-            btn = uicontrol('Parent',d,...
-                'Position',[85 20 70 25],...
-                'String','Close',...
-                'Callback','delete(gcf)');
-            ready=0;
-        end
+        disp('Attempt failed');
+        disp(['Copy the following link to the Git repository: ' gitRepo]);
+        ready = false;
+        return;
     end
-else
-    ready=1;
+    
+    % If successful, add files to path
+    disp('Done');
+    addpath(genpath(pwd));
 end
+
+% Check for the modified URDF file. If it exist, we are all set.
+if isempty(which('open_manipulator.urdf'))
+    % If the URDF file does not exist, check for the XACRO file from
+    % the Git repository and modify it.
+    xacroFile = which('open_manipulator.urdf.xacro');
+    if ~isempty(xacroFile)
+        disp('Modifying necessary description files...');
+        urdfFolder = fileparts(xacroFile);
+        urdfFile = fullfile(urdfFolder,'open_manipulator.urdf');
+        filetext = fileread('open_manipulator.urdf.xacro');
+        % String replace all the joint angle limit expressions with numeric values
+        [startIdx,endIdx] = regexp(filetext,'\${(-)?pi*\S*}');
+        while ~isempty(startIdx)
+           token = filetext(startIdx(1):endIdx(1));
+           numericVal = eval(token(3:end-1));
+           filetext = strrep(filetext,token,num2str(numericVal));
+           [startIdx,endIdx] = regexp(filetext,'\${(-)?pi*\S*}');
+        end
+        % Write the URDf file with the new text
+        file = fopen(urdfFile,'w');
+        fwrite(file,filetext);
+        fclose(file);
+        disp('Done');
+        
+    % Give a warning if the description file is not found
+    else
+        d = dialog('Position',[450 450 280 250],'Name','Open Manipulator Description xacro file not found');
+        uicontrol('Parent',d,...
+            'Style','text',...
+            'Position',[20 50 250 180],...
+            'String',{['Please make sure to have the ''open_manipulator.urdf.xacro'' file in the MATLAB path. Find this file and other necessary dependencies in the following repository: ' gitRepo], ...
+                       '','Else, this example will use the preloaded robotics.RigidBodyTree object in openManipulatorDescription.mat'});
+        uicontrol('Parent',d,...
+            'Position',[110 20 70 25],...
+            'String','Close',...
+            'Callback','delete(gcf)');
+        ready = false;
+    end
+end
+
 disp('Done checking')
+
 end
 

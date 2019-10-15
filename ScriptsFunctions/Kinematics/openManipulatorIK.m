@@ -1,16 +1,16 @@
 %% Waypoint tracking demonstration using Robotics System Toolbox
 
-% Copyright 2018 The MathWorks, Inc.
-
 % This demonstration performs inverse kinematics of a
-% robotic manipulator to follow a desired set of waypoints.
+% robot manipulator to follow a desired set of waypoints.
+
+% Copyright 2017-2018 The MathWorks, Inc.
 
 %% Load and display robot
 clear
 clc
 
 addpath(genpath(strcat(pwd,'\Dependencies')))
-robot = importrobot('open_manipulator_chain.urdf');
+robot = importrobot('open_manipulator.urdf');
 axes = show(robot);
 axes.CameraPositionMode = 'auto';
 
@@ -22,7 +22,7 @@ exampleHelperPlotWaypoints(wayPoints);
 
 %% Create a smooth curve from the waypoints to serve as trajectory
 
-trajectory=cscvn(wayPoints');
+trajectory = cscvn(wayPoints');
 
 % Plot trajectory spline and waypoints
 hold on

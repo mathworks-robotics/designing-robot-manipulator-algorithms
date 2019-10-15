@@ -1,7 +1,7 @@
 function exampleHelperPlotSpheres(size,pointPosition)
 % This function plots a sphere as points of interest
 
-% Copyright 2018 The MathWorks, Inc.
+% Copyright 2017-2018 The MathWorks, Inc.
 
 % Create points for visualizing a sphere
 [X,Y,Z] = sphere(20);

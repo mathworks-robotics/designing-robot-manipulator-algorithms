@@ -1,5 +1,5 @@
 Simscape Multibody Contact Forces Library
-Copyright 2014-2017 The MathWorks, Inc.
+Copyright 2014-2018 The MathWorks, Inc.
 
 This library contains contact force models for use with Simscape Multibody.
 They can be used for intermittent contact (parts bouncing off each other)
@@ -37,6 +37,66 @@ Recommendations:
 
 
 #########  Release History  #########  
+v 4.1(R2018a)	Mar 2018       Tread example, walking robot example 
+     (R2017b)
+     (R2017a)   1. Adjusted Sphere to Belt Force (in 3D, Composite Forces)
+     (R2016b)      Changed orientation of reference frame for the two
+     (R2016a)      Sphere to Tube Enabled Forces. Z-axis flipped 180 deg
+     (R2015b)      so that vx and wz inputs have the same sign. 
+     (R2015a)   
+                2. Adjusted sm_tread_drive example.slx
+                   Uses adjusted Sphere to Belt Force, test sequence altered
+                   to show turning and show both treads striking bump in 
+                   forward and reverse. 
+
+                3. New example sm_robot_6legs_4bar.slx 
+                   Models 6-legged robot. Legs on each side are a pair of
+                   connected four-bar linkages. Shows how to model robot
+                   walking on uneven surface.   
+
+                4. Added CFL_contact_setModel.m
+                   Function to select force law in all contact forces in model.
+
+                5. Additions to support Parts_Lib.slx 
+                   Extrusion file Extr_Data_TriangleRounded_Holes.m and 
+                   various images for masking parts.
+
+v 4.0(R2018a)	Mar 2018       Updated for R2018a
+     (R2017b)
+     (R2017a)   1. Added Sphere to Tube Enabled Force
+     (R2016b)      Sphere to Tube force that can be enabled/disabled
+     (R2016a)      and can be used to model the ends of a driven conveyor belt.
+     (R2015b)
+     (R2015a)   2. Added Sphere to Belt Force (in 3D, Composite Forces)
+                   Used to models spheres on a moving conveyor belt.  Can
+                   also be used to model vehicles that ride on treads
+                   like a bulldozer.  See sm_tread_drive  
+
+                3. New examples sm_tread_drive, Frict3D_Balls_on_Driven_Tube 
+                   These examples use Sphere to Tube Enabled Force and
+                   Sphere to Belt Force. 
+
+                4. Added sm_ball_bearing_testrig example
+                   Models a ball bearing with variants that use
+                   Common Gear Constraint (ideal) and contact forces
+                   (permits vibration).
+
+                5. Added extrusion script Extr_Data_Block_NotchCircle.m 
+                   Used to calculate cross-sectional profile for inner and
+                   outer race in Ball Bearing Testrig example
+
+
+v 3.9 (R2017b)	Jan 2018       Added Cam Roller Constraint
+                1. Added Cam Roller Constraint.  
+                   Uses Point-on-Curve Constraint to model circular
+                   roller on a cam with arbitrary profile.
+
+                2. Added Extr_Data_Cam_Roller_Curve.m to calculate
+                   path of Point-on-Curve Constraint.
+
+                3. Added Cam_Follower_Constraint example.
+
+
 v 3.8 (R2017b)	Sept 2017      Updated for R2017b
 
 
@@ -63,15 +123,15 @@ v 3.7 (R2017a)	July 2017      Sphere to Cone Force, many fixes
                 Cam Follower and the UI for parameterizing the cam.
 
                 5. Many 2D contact forces have been modified so that they
-		no longer refer to the World frame.  This permits them to be
-		used in any plane, not just the x-y plane.
+		        no longer refer to the World frame.  This permits them to be
+                used in any plane, not just the x-y plane.
 
                 6. Circle to Ring Force: calculations adjusted to use consistent
                 distance to contact point for circle and ring.  May result in
-		minor changes to simulation results.
+                minor changes to simulation results.
 
                 7. Mask commands adjusted - eliminated imread(), use option
-		"Opaque with ports" (R16a and above), and other settings.
+                "Opaque with ports" (R16a and above), and other settings.
 
 
 v 3.6 (R2017a)	Mar  2017       Updated for R2017a

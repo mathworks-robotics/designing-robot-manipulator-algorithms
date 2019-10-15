@@ -1,5 +1,5 @@
 ROBOT MANIPULATOR CONTROL EXAMPLE
-Copyright 2018 The MathWorks, Inc.
+Copyright 2017-2018 The MathWorks, Inc.
 
 ------------------------------------------------------------------------------------------
 
@@ -37,6 +37,18 @@ MAIN EXAMPLE FILES:
     This Simulink model builds on the waypoint tracking model and adds simple
     perception to track and catch a moving ball using a polynomial 
     extrapolation of the ball trajectory.
+
+4. openManipulatorTorqueCtrlCfg.slx
+
+    This Simulink model tests the closed-loop torque controller, in configuration 
+    space, using joint position commands (no inverse kinematics or supervisory logic).
+
+5. openManipulatorTorqueCtrlTask.slx
+
+    This Simulink model tests the closed-loop torque controller, in task 
+    space, using end effector position commands (no supervisory logic).
+
+
 ------------------------------------------------------------------------------------------
 
 PRODUCT REQUIREMENTS:
@@ -45,6 +57,7 @@ MATLAB
 Simulink
 Robotics System Toolbox
 Curve Fitting Toolbox
+Simscape
 Simscape Multibody
 Stateflow
 
