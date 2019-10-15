@@ -52,15 +52,16 @@ if isempty(which('open_manipulator.urdf'))
         urdfFolder = fileparts(xacroFile);
         urdfFile = fullfile(urdfFolder,'open_manipulator.urdf');
         filetext = fileread('open_manipulator.urdf.xacro');
-        % String replace all the joint angle limit expressions with numeric values
-        [startIdx,endIdx] = regexp(filetext,'\${(-)?pi*\S*}');
+        % String replace all the expressions with numeric values
+        searchExpression = '\${[^}]*\d+[^}]*}'; % Starts with $ and has text (with at least one number) between { }
+        [startIdx,endIdx] = regexp(filetext,searchExpression);        
         while ~isempty(startIdx)
            token = filetext(startIdx(1):endIdx(1));
            numericVal = eval(token(3:end-1));
            filetext = strrep(filetext,token,num2str(numericVal));
-           [startIdx,endIdx] = regexp(filetext,'\${(-)?pi*\S*}');
+           [startIdx,endIdx] = regexp(filetext,searchExpression);
         end
-        % Write the URDf file with the new text
+        % Write the URDF file with the new text
         file = fopen(urdfFile,'w');
         fwrite(file,filetext);
         fclose(file);

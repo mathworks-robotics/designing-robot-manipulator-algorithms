@@ -10,7 +10,7 @@ clear
 clc
 
 addpath(genpath(strcat(pwd,'\Dependencies')))
-robot = importrobot('open_manipulator.urdf');
+robot = createRigidBodyTree;
 axes = show(robot);
 axes.CameraPositionMode = 'auto';
 
@@ -29,13 +29,6 @@ hold on
 fnplt(trajectory,'r',2);
 
 %% Perform Inverse Kinematics for a point in space
-
-% Add end effector frame, offset from the grip link frame
-eeOffset = 0.12;
-eeBody = robotics.RigidBody('end_effector');
-setFixedTransform(eeBody.Joint,trvec2tform([eeOffset 0 0]));
-addBody(robot,eeBody,'link5');
-
 ik = robotics.InverseKinematics('RigidBodyTree',robot);
 weights = [0.1 0.1 0 1 1 1];
 initialguess = robot.homeConfiguration;

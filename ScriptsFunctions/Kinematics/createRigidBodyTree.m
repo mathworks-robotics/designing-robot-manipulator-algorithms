@@ -11,10 +11,7 @@ try
     % Add gravity
     gravityVec = [0 0 -9.80665];
     robot.Gravity = gravityVec;
-    
-    % Add inertial properties
-    setRobotInertialProperties;
-    
+        
     % Add another massless coordinate frame for the end effector
     eeOffset = 0.12;
     eeBody = robotics.RigidBody('end_effector');
@@ -25,7 +22,8 @@ try
     
 % If this fails, load the preloaded rigid body tree
 catch
-    load openManipulatorDescription robot;
+    warning('Error importing URDF file. Loading presaved object.');
+    load openManipulatorDescription robot
 end
 
 % Return its home configuration
