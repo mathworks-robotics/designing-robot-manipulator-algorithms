@@ -20,6 +20,11 @@ Robot geometries are imported to MATLAB using the "importrobot" function
 and to Simscape Multibody using the "smimport" function. For more information
 on these functions check the associated documentation pages.
 
+To learn more, refer to these videos:
+
+* [Designing Robot Manipulator Algorithms](https://www.mathworks.com/videos/matlab-and-simulink-robotics-arena-designing-robot-manipulator-algorithms-1515776491590.html)
+* [Controlling Robot Manipulator Joints](https://www.mathworks.com/videos/matlab-and-simulink-robotics-arena-controlling-robot-manipulator-joints-1521714030608.html)
+
 ------------------------------------------------------------------------------------------
 
 ## Main Example Files
