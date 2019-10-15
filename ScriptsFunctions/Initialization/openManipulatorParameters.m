@@ -59,7 +59,7 @@ KfiltCart = 150;         % Derivative filter coefficient
 waypoint_threshold = 0.02;  % Threshold for waypoint following
 
 % Ball Tracking parameters
-position_threshold = [0.05 0.05 0.05];   % XYZ thresholds for ball tracking
+position_threshold = [0.03 0.03 0.03];   % XYZ thresholds for ball tracking
 homePose = [0.278 0 0.198]'; % Position to return to after grabbing ball
 estDelay = 0.2; % Ball tracking estimation delay
 time_jump = 0.1; % Ball tracking time jump 

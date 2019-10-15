@@ -1,6 +1,6 @@
 %% Robot Manipulator Control Example 
 
-% Copyright 2017-2018 The MathWorks, Inc.
+% Copyright 2017-2019 The MathWorks, Inc.
 
 % NOTE: This submission requires files from the following Git repository:
 % https://github.com/ROBOTIS-GIT/open_manipulator
@@ -25,7 +25,7 @@ Simulink.fileGenControl('set','CacheFolder','work')
 % Check dependencies and address them 
 if checkDependencies
     edit('openManipulatorIK.m');
-    edit('Readme.txt')
+    edit('Readme.md')
     open_system('openManipulatorWaypointTracking')
     open_system('openManipulatorBallTracking')
 else
